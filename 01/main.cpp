@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+
 /*
     Expression :=  Term { ("+" | "-") Term }
     Term       := Factor { ( "*" | "/" ) Factor }
@@ -17,23 +18,26 @@ int Factor(char **s) {
     int sign = 0;
 
     while (isspace(**s))
-        ++(*s);
+        ++*s;
 
     while (**s == '-') {
         sign = 1 - sign;
-        ++(*s);
+        ++*s;
         while (isspace(**s))
-            ++(*s);
+            ++*s;
     }
+
+    if (!(isdigit(**s)))
+        throw "String is not an expression.";
     while (isdigit(**s)) {
         res *= mul;
         res += Digit(s);
         mul = 10;
-        ++(*s);
+        ++*s;
     }
 
     while (isspace(**s))
-        ++(*s);
+        ++*s;
     return sign ? -res : res;
 }
 
@@ -42,11 +46,11 @@ int Term(char **s) {
     res = Factor(s);
     while (**s == '*' || **s == '/') {
         if (**s == '*') {
-            ++(*s);
+            ++*s;
             res *= Factor(s);
-        } else if (**s == '/'){
-            ++(*s);
-            int buf = Factor(s);
+        } else if (**s == '/') {
+            ++*s;
+            /*int buf = Factor(s);
             if (res < 0)
                 if (buf < 0)
                     res = -res / -buf;
@@ -55,7 +59,8 @@ int Term(char **s) {
             else if (buf < 0)
                 res = -(res / -buf) - (res % -buf != 0 ? 1 : 0);
             else
-                res = res / buf;
+                res = res / buf;*/
+            res /= Factor(s);
         }
     }
     return res;
@@ -65,17 +70,26 @@ int Expression(char **s) {
     int res = Term(s);
     while (**s == '-' || **s == '+') {
         if (**s == '-') {
-            ++(*s);
+            ++*s;
             res -= Term(s);
         } else {
-            ++(*s);
+            ++*s;
             res += Term(s);
         }
     }
+    if (**s != '\0')
+        throw "String is not an expression.";
     return res;
 }
 
 int main(int argc, char **argv) {
-    cout << Expression(&argv[1]);
+    int res;
+    try {
+        res = Expression(&argv[1]);
+        cout << res;
+    }
+    catch (const char *msg) {
+        cout << msg;
+    }
     return 0;
 }
