@@ -1,4 +1,6 @@
 #include <iostream>
+#include <stdexcept>
+
 using namespace std;
 
 /*
@@ -6,90 +8,87 @@ using namespace std;
     Term       := Factor { ( "*" | "/" ) Factor }
     Factor     := {'-'}Digit{Digit}
     Digit      := "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
- *
 */
-int Digit(char **s) {
-    return **s - '0';
+int Digit(const string &src, size_t &i) {
+    return src[i] - '0';
 }
 
-int Factor(char **s) {
+int Factor(const string &src, size_t &i) {
     int mul = 1;
     int res = 0;
     int sign = 0;
 
-    while (isspace(**s))
-        ++*s;
+    while (isspace(src[i]))
+        ++i;
 
-    while (**s == '-') {
+    while (src[i] == '-') {
         sign = 1 - sign;
-        ++*s;
-        while (isspace(**s))
-            ++*s;
+        ++i;
+        while (isspace(src[i]))
+            ++i;
     }
 
-    if (!(isdigit(**s)))
-        throw "String is not an expression.";
-    while (isdigit(**s)) {
+    if (!(isdigit(src[i])))
+        throw invalid_argument("String is not an expression.");
+    while (isdigit(src[i])) {
         res *= mul;
-        res += Digit(s);
+        res += Digit(src, i);
         mul = 10;
-        ++*s;
+        ++i;
     }
 
-    while (isspace(**s))
-        ++*s;
+    while (isspace(src[i]))
+        ++i;
     return sign ? -res : res;
 }
 
-int Term(char **s) {
+int Term(const string &src, size_t &i) {
     int res;
-    res = Factor(s);
-    while (**s == '*' || **s == '/') {
-        if (**s == '*') {
-            ++*s;
-            res *= Factor(s);
-        } else if (**s == '/') {
-            ++*s;
-            /*int buf = Factor(s);
-            if (res < 0)
-                if (buf < 0)
-                    res = -res / -buf;
-                else
-                    res = -(-res / buf) - (-res % buf != 0 ? 1 : 0);
-            else if (buf < 0)
-                res = -(res / -buf) - (res % -buf != 0 ? 1 : 0);
-            else
-                res = res / buf;*/
-            res /= Factor(s);
+    res = Factor(src, i);
+    while (src[i] == '*' || src[i] == '/') {
+        if (src[i] == '*') {
+            ++i;
+            res *= Factor(src, i);
+        } else if (src[i] == '/') {
+            ++i;
+            int buf = Factor(src, i);
+            if (!buf)
+                throw runtime_error("Division by zero attempted.");
+            res /= buf;
         }
     }
     return res;
 }
 
-int Expression(char **s) {
-    int res = Term(s);
-    while (**s == '-' || **s == '+') {
-        if (**s == '-') {
-            ++*s;
-            res -= Term(s);
+int Expression(const string &src, size_t &i) {
+    int res = Term(src, i);
+    while (src[i] == '-' || src[i] == '+') {
+        if (src[i] == '-') {
+            ++i;
+            res -= Term(src, i);
         } else {
-            ++*s;
-            res += Term(s);
+            ++i;
+            res += Term(src, i);
         }
     }
-    if (**s != '\0')
-        throw "String is not an expression.";
+    if (src[i] != '\0')
+        throw invalid_argument("String is not an expression.");
     return res;
 }
 
 int main(int argc, char **argv) {
     int res;
+    size_t i = 0;
+    string src(argv[1]);
     try {
-        res = Expression(&argv[1]);
+        res = Expression(src, i);
         cout << res;
     }
-    catch (const char *msg) {
-        cout << msg;
+    catch (const invalid_argument &msg) {
+        cout << msg.what();
+    }
+    catch (const runtime_error &msg) {
+        cout << msg.what();
     }
     return 0;
 }

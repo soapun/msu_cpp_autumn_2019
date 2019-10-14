@@ -8,7 +8,7 @@ def check(expr, result):
         flag = False
 
 
-
+check('1/0', 'Division by zero attempted.')
 check('hello there', 'String is not an expression.')
 check('(2', 'String is not an expression.')
 check('2*2(', 'String is not an expression.')
