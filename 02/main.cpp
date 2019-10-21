@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
     LinearAllocator x;
     try {
         x = LinearAllocator(atoi(argv[1]));
-    } catch(bad_alloc e) {
+    } catch (bad_alloc e) {
         cout << e.what() << endl;
         return 1;
     }
@@ -18,8 +18,7 @@ int main(int argc, char *argv[]) {
             x.reset();
         } else {
             size_t amo = stoi(buf);
-            if (static_cast<void *>(x.alloc(amo)) != nullptr)
-            {
+            if (static_cast<void *>(x.alloc(amo)) != nullptr) {
                 cout << "allocated " << amo << " byte";
                 if (amo > 1)
                     cout << "s";

@@ -10,11 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="842a52e4-7734-4921-b0c5-2f5d48e9fa5f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/LinearAllocator.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/LinearAllocator.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LinearAllocator.h" beforeDir="false" afterPath="$PROJECT_DIR$/LinearAllocator.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main" beforeDir="false" afterPath="$PROJECT_DIR$/main" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1571598829213</updated>
       <workItem from="1571598830538" duration="3808000" />
-      <workItem from="1571646210338" duration="6750000" />
+      <workItem from="1571646210338" duration="6911000" />
     </task>
     <servers />
   </component>

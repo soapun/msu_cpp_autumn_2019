@@ -1,16 +1,13 @@
 #include <iostream>
 #include "LinearAllocator.h"
 
-LinearAllocator::LinearAllocator(size_t maxSize)
-{
+LinearAllocator::LinearAllocator(size_t maxSize) {
     beg = new char[maxSize];
     cur = beg;
     end = beg + maxSize;
-
 }
 
-char* LinearAllocator::alloc(size_t size)
-{
+char *LinearAllocator::alloc(size_t size) {
     if (size > end - cur) {
         return nullptr;
     } else {
@@ -20,12 +17,10 @@ char* LinearAllocator::alloc(size_t size)
     }
 }
 
-void LinearAllocator::reset()
-{
+void LinearAllocator::reset() {
     cur = beg;
 }
 
-LinearAllocator::~LinearAllocator()
-{
+LinearAllocator::~LinearAllocator() {
     delete[] beg;
 }
