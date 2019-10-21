@@ -1,5 +1,5 @@
-//#ifndef LINEARALLOCATOR_H
-//#define LINEARALLOCATOR_H
+#ifndef LINEARALLOCATOR_H
+#define LINEARALLOCATOR_H
 
 
 class LinearAllocator
@@ -14,4 +14,4 @@ public:
     ~LinearAllocator();
 };
 
-//#endif
+#endif

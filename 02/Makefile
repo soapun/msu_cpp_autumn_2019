@@ -1,4 +1,6 @@
-main: main.cpp LinearAllocator.cpp
-	g++ main.cpp LinearAllocator.cpp -o main --std=c++14 -O2
+alloc: main.cpp LinearAllocator.cpp
+	g++ main.cpp LinearAllocator.cpp -o alloc --std=c++14 -O2
 run:
-	./main
+	./alloc
+test:
+	python3 test.py

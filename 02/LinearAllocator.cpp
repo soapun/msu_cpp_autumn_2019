@@ -3,17 +3,14 @@
 
 LinearAllocator::LinearAllocator(size_t maxSize)
 {
-    beg = new char [maxSize];
-    //std::cout << static_cast<void *>( beg) << std::endl;
+    beg = new char[maxSize];
     cur = beg;
     end = beg + maxSize;
-    //std::cout << static_cast<void *> (end )<< std::endl;
 
 }
 
 char* LinearAllocator::alloc(size_t size)
 {
-    //std::cout << static_cast<void*>(beg) << " " << static_cast<void *>(cur) << " " << static_cast<void *>(end) << std::endl;
     if (size > end - cur) {
         return nullptr;
     } else {
