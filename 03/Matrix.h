@@ -9,10 +9,11 @@ class Matrix {
     class Row {
         friend class Matrix;
 
-        Matrix &parent;
+        int **parent;
         size_t row;
+        size_t col;
 
-        Row(Matrix &_parent, size_t _row);
+        Row(int **_parent, size_t _row, size_t _col);
 
     public:
         int &operator[](size_t col);
@@ -34,9 +35,11 @@ public:
 
     bool operator!=(const Matrix &) const;
 
-    void operator*=(int x);
+    Matrix &operator*=(int x);
 
     Row operator[](size_t row);
+
+    const Row operator[](size_t row) const;
 
     void print() const;
 };

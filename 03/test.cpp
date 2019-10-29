@@ -7,7 +7,8 @@ using namespace std;
 int main() {
     Matrix m(3, 3);
     Matrix g(3, 3);
-
+    const Matrix c(3, 3);
+    assert(c[2][2] == 4);
     assert(m == g);
 
     m[2][2] = 1337;

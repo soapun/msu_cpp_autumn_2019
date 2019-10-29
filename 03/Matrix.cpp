@@ -2,26 +2,25 @@
 #include "Matrix.h"
 
 
-Matrix::Row::Row(Matrix &_parent, size_t _row) : parent(_parent), row(_row) {}
+Matrix::Row::Row(int **_parent, size_t _row, size_t _col) : parent(_parent), row(_row), col(_col) {}
 
-int &Matrix::Row::operator[](size_t col) {
-    if (col >= parent.cols)
+int &Matrix::Row::operator[](size_t _col) {
+    if (_col >= col)
         throw std::out_of_range("");
-    return parent.arr[row][col];
+    return parent[row][_col];
 }
 
-const int &Matrix::Row::operator[](size_t col) const {
-    if (col >= parent.cols)
+const int &Matrix::Row::operator[](size_t _col) const {
+    if (_col >= col)
         throw std::out_of_range("");
-    return parent.arr[row][col];
+    return parent[row][_col];
 }
 
 
 Matrix::Matrix(size_t _rows, size_t _cols) : rows(_rows), cols(_cols) {
-    arr = (int **) malloc(rows * sizeof(*arr) + rows * cols * sizeof(**arr));
-    int *buf = (int *) (arr + rows);
+    arr = new int *[rows];
     for (size_t i = 0; i < rows; ++i) {
-        arr[i] = buf + i * cols;
+        arr[i] = new int[cols];
         for (size_t j = 0; j < cols; ++j)
             arr[i][j] = i + j;
     }
@@ -49,12 +48,13 @@ bool Matrix::operator!=(const Matrix &a) const {
     return !(*this == a);
 }
 
-void Matrix::operator*=(int x) {
+Matrix &Matrix::operator*=(int x) {
     for (size_t i = 0; i < rows; ++i) {
         for (size_t j = 0; j < cols; ++j) {
             arr[i][j] *= x;
         }
     }
+    return *this;
 }
 
 void Matrix::print() const {
@@ -68,9 +68,17 @@ void Matrix::print() const {
 Matrix::Row Matrix::operator[](size_t row) {
     if (row >= rows)
         throw std::out_of_range("");
-    return Row(*this, row);
+    return Row(arr, row, cols);
+}
+
+const Matrix::Row Matrix::operator[](size_t row) const {
+    if (row >= rows)
+        throw std::out_of_range("");
+    return Row(arr, row, cols);
 }
 
 Matrix::~Matrix() {
-    free(arr);
+    for (size_t i = 0; i < rows; ++i)
+        delete[] arr[i];
+    delete[] arr;
 }
