@@ -22,7 +22,7 @@ public:
 
     BigInt(BigInt &&moved);
 
-    BigInt &operator=(BigInt&& moved);
+    BigInt &operator=(BigInt &&moved);
 
     ~BigInt();
 

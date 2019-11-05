@@ -2,26 +2,22 @@
 #include <limits.h>
 #include "BigInt.h"
 
-void check(int64_t x, int64_t y)
-{
+void check(int64_t x, int64_t y) {
     const BigInt bigX = x;
     const BigInt bigY = y;
 
-    if (bigX + bigY != BigInt(x + y))
-    {
+    if (bigX + bigY != BigInt(x + y)) {
         std::cout << x << " + " << y << " != " << x + y << " got " << bigX + bigY << '\n';
     }
 
-    if (bigX - bigY != BigInt(x - y))
-    {
+    if (bigX - bigY != BigInt(x - y)) {
         std::cout << x << " - " << y << " != " << x - y << " got " << bigX - bigY << '\n';
     }
 }
 
 #define checkTrue(cond) if (!(cond)) std::cout << "at line " << __LINE__ << ": " << #cond << '\n';
 
-int main()
-{
+int main() {
     BigInt x = 1;
     checkTrue(x == BigInt(1));
     BigInt y = x;
@@ -78,15 +74,13 @@ int main()
     checkTrue(BigInt(0) + BigInt(-1) == BigInt(-1));
     checkTrue(BigInt(0) - BigInt(1) == BigInt(-1));
 
-    checkTrue(BigInt(100) - BigInt(100) ==  BigInt(0));
+    checkTrue(BigInt(100) - BigInt(100) == BigInt(0));
     checkTrue(BigInt(99) - BigInt(100) == BigInt(-1));
     checkTrue(BigInt(10) - BigInt(11) == BigInt(-1));
     checkTrue(BigInt(20) - BigInt(19) == BigInt(1));
 
-    for (int i = -100; i <= 100; ++i)
-    {
-        for (int j = -100; j <= 100; ++j)
-        {
+    for (int i = -100; i <= 100; ++i) {
+        for (int j = -100; j <= 100; ++j) {
             check(i, j);
         }
     }

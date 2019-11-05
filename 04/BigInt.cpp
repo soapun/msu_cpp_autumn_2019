@@ -12,7 +12,7 @@ void BigInt::push_back(char a) {
     ++idx;
 
     if (idx == len) {
-        char* tmp = new char[len << 1];
+        char *tmp = new char[len << 1];
         for (size_t i = 0; i < len; ++i)
             tmp[i] = data[i];
         len <<= 1;
@@ -66,15 +66,13 @@ BigInt &BigInt::operator=(const BigInt &a) {
 }
 
 BigInt::BigInt(BigInt &&moved)
-    : sign(std::move(moved.sign))
-    , idx(std::move(moved.idx))
-    , len(std::move(moved.len)) {
+        : sign(std::move(moved.sign)), idx(std::move(moved.idx)), len(std::move(moved.len)) {
     using std::swap;
     data = nullptr;
     swap(data, moved.data);
 }
 
-BigInt &BigInt::operator=(BigInt&& moved) {
+BigInt &BigInt::operator=(BigInt &&moved) {
     if (this == &moved)
         return *this;
 
@@ -171,14 +169,12 @@ BigInt BigInt::abs() const {
 }
 
 
-
 BigInt BigInt::operator+(const BigInt &a) const {
     if (!sign && a.sign) {
         return *this - a.abs();
     } else if (sign && !a.sign) {
         return a - (*this).abs();
     }
-
 
     BigInt res(*this);
     char carry = 0;
@@ -187,7 +183,6 @@ BigInt BigInt::operator+(const BigInt &a) const {
             res.push_back(0);
         }
     }
-
 
     for (size_t i = 0; i < a.idx; ++i) {
         char sum = res.data[i] + a.data[i] + carry;
