@@ -62,7 +62,7 @@ BigInt &BigInt::operator=(const BigInt &a) {
     delete[] data;
     data = new char[len];
     std::memcpy(data, a.data, idx);
-
+    return *this;
 }
 
 BigInt::BigInt(BigInt &&moved)

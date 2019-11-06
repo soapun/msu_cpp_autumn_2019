@@ -8,9 +8,9 @@ class BigInt {
     bool sign = false;
     size_t idx = 0;
     size_t len = 64;
+    void push_back(char a);
 
 public:
-    void push_back(char a);
 
     BigInt();
 
