@@ -59,23 +59,23 @@ private:
         return Error::NoError;
     }
 
-    Error process(uint64_t& value) {
+    Error process(uint64_t& val) {
         std::string t;
         in >> t;
 
         if (t[0] == '-')
             return Error::CorruptedArchive;
-        value = std::stoull(t.c_str());
+        val = std::stoull(t.c_str());
         return Error::NoError;
     }
 
-    Error process(bool& value) {
+    Error process(bool& val) {
         std::string t;
         in >> t;
         if (t == "true")
-            value = true;
+            val = true;
         else if (t == "false")
-            value = false;
+            val = false;
         else
             return Error::CorruptedArchive;
         return Error::NoError;
