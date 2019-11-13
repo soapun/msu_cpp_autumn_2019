@@ -1,6 +1,6 @@
-serialize: main.cpp
+serialize: main.cpp Serializer.h
 	g++ main.cpp -o serialize --std=c++14 -O2
-run:
+run: serialize
 	./serialize
-test:
+test: serialize
 	./serialize
