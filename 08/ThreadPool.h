@@ -27,17 +27,16 @@ public:
         for (size_t i = 0; i < poolSize; ++i)
             workers.emplace_back(
                     [this] {
-                        while (true) {
-                            function<void()> task;
-                            {
-                                unique_lock <mutex> lock(m);
-                                condition.wait(lock, [this] { return stop || !tasks.empty(); });
-                                if (stop && tasks.empty())
-                                    return;
-                                task = move(tasks.front());
+                        while (!stop) {
+                            unique_lock<mutex> lock(m);
+                            if (!tasks.empty()) {
+                                function<void()> task = move(tasks.front());
                                 tasks.pop();
+                                lock.unlock();
+                                task();
+                            } else {
+                                condition.wait(lock);
                             }
-                            task();
                         }
                     }
             );
@@ -57,7 +56,7 @@ public:
 
             tasks.emplace([task]() { (*task)(); });
         }
-        condition.notify_all();
+        condition.notify_all ();
         return res;
     }
 
