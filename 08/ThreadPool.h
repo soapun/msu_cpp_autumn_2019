@@ -60,10 +60,7 @@ public:
     }
 
     ~ThreadPool() {
-        {
-            unique_lock<mutex> lock(m);
-            stop = true;
-        }
+        stop = true;
         condition.notify_all();
         for (thread &worker: workers)
             worker.join();
