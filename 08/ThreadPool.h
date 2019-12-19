@@ -53,10 +53,9 @@ public:
             unique_lock<mutex> lock(m);
             if (stop)
                 throw runtime_error("The pool has already stopped");
-
             tasks.emplace([task]() { (*task)(); });
         }
-        condition.notify_all ();
+        condition.notify_one ();
         return res;
     }
 
